@@ -5,6 +5,9 @@ from datastruct import \
      COLD, SWEET, HOT,
      HIGH, NORMAL, LOW)
 
+from datastruct import \
+    (OUTLOOK, TEMPERATURE, HUMIDITY, WIND, PLAY)
+
 
 # returns list with one line from csv file
 def parse_csv_line(row):
@@ -30,15 +33,38 @@ def parse_csv_line(row):
     if row[4] == 'Yes': play = True
     elif row[4] == 'No': play = False
     # print(outlook, temperature, humidity, wind, play)
-    return Weather(outlook, temperature, humidity, wind, play)
+    return outlook, temperature, humidity, wind, play
+
+
+def is_line_correct(line):
+    outlook = (line[0] >= 0 & line[0] <= 2)
+    temperature = (line[1] >= 0 & line[1] <= 2)
+    humidity = (line[2] >= 0 & line[2] <= 2)
+    wind = (line[3] >= 0 & line[3] <= 2)
+
+    return outlook & temperature & humidity & wind
+
+
+def add_item(table, item):
+    table[OUTLOOK].append(item[0])
+    table[TEMPERATURE].append(item[1])
+    table[HUMIDITY].append(item[2])
+    table[WIND].append(item[3])
+    table[PLAY].append(item[4])
 
 
 def csv_reader(file_obj):
     reader = csv.reader(file_obj, delimiter=',')
 
-    out = list()
+    out = {
+        OUTLOOK: [],
+        TEMPERATURE: [],
+        HUMIDITY: [],
+        WIND: [],
+        PLAY: []
+    }
     for row in reader:
         item = parse_csv_line(row)
-        if item.is_correct(): out.append(item)
+        if is_line_correct(item): add_item(out, item)
 
     return out

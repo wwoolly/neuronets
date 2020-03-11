@@ -4,6 +4,8 @@ SUN, OVERCAST, RAIN = 0, 1, 2
 COLD, SWEET, HOT = 0, 1, 2
 HIGH, NORMAL, LOW = 0, 1, 2
 
+OUTLOOK, TEMPERATURE, HUMIDITY, WIND, PLAY = \
+    'outlook', 'temperature', 'humidity', 'wind', 'play'
 
 class Attribute(Enum):
     OUTLOOK = 0
